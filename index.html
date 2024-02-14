@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JSSample</title>
+
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        (async function () {
+
+            // const data = { "url": "https://cdn.motor1.com/images/mgl/QeWez9/s1/001.webp" }
+            const data = { "url": "https://previews.123rf.com/images/javiindy/javiindy1609/javiindy160900011/62772378-multiracial-group-of-friends-taking-selfie-in-a-urban-park.jpg" }
+            // const data = { "url": "https://assets.capitalxtra.com/2016/20/kanye-west-poses-against-red-ferrari-on-lunch-date-with-kim-and-north-1463395662-view-0.jpeg" }
+            // const data = { "url": "https://d1iweu5ycuvvev.cloudfront.net/powernationtv-com/media/uploads/2023/08/rental-ferrari-teen-1024x576.jpg" }
+
+            try {
+                const response = await fetch("https://bgremover.cognitiveservices.azure.com/computervision/imageanalysis:segment?api-version=2023-02-01-preview&mode=backgroundRemoval", {
+                    method: "POST", // or 'PUT'
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Ocp-Apim-Subscription-Key": "925b5b702e414bcbac41a61457e83875"
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.blob();
+                // console.log("Success:", result);
+                const image = document.querySelector('.my-image');
+                const objectURL = URL.createObjectURL(result);
+                image.src = objectURL;
+            } catch (error) {
+                console.error("Error:", error);
+            }
+
+        })();
+
+
+    </script>
+    <div style="display: flex; background-color: orange; height: 400px; justify-content: center; align-items: center;">
+        <img class="my-image" style="height: 100%;" />
+    </div>
+    <div id="paste-button">paste</div>
+
+    <script>
+        const pasteButton = document.querySelector('#paste-button');
+
+        console.log(pasteButton)
+
+        pasteButton.addEventListener('click', async () => {
+            /* try {
+                const clipboardItems = await navigator.clipboard.read();
+                for (const clipboardItem of clipboardItems) {
+                    const imageTypes = clipboardItem.types.find(type => type.startsWith('image/'))
+                    for (const imageType of imageTypes) {
+                        console.log(imageType)
+                        const blob = await clipboardItem.getType(imageType);
+                        // Do something with the image blob.
+                        const image = document.querySelector('.my-image');
+                        const objectURL = URL.createObjectURL(blob);
+                        image.src = objectURL;
+                    }
+                }
+            } catch (err) {
+                console.error(err.name, err.message);
+            } */
+
+            try {
+                const clipboardContents = await navigator.clipboard.read();
+                for (const item of clipboardContents) {
+                    if (!item.types.includes("image/png")) {
+                        throw new Error("Clipboard does not contain PNG image data.");
+                    }
+                    const blob = await item.getType("image/png");
+                    const image = document.querySelector('.my-image');
+                    const objectURL = URL.createObjectURL(blob);
+                    image.src = objectURL;
+                }
+            } catch (error) {
+                log(error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+<!-- const image = document.querySelector('.my-image');
+fetch('flowers.jpg')
+.then(response => response.blob())
+.then(blob => {
+  const objectURL = URL.createObjectURL(blob);
+  image.src = objectURL;
+}); -->
