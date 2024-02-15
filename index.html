@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>JSSample</title>
+    <title>Stickerpop</title>
 
 </head>
 
@@ -69,18 +69,25 @@
 
             try {
                 const clipboardContents = await navigator.clipboard.read();
+                console.log("asdf")
                 for (const item of clipboardContents) {
-                    if (!item.types.includes("image/png")) {
+                    if (!item.types.includes("image/jpeg")) {
                         throw new Error("Clipboard does not contain PNG image data.");
                     }
                     const blob = await item.getType("image/png");
+                    console.log(blob)
                     const image = document.querySelector('.my-image');
                     const objectURL = URL.createObjectURL(blob);
                     image.src = objectURL;
                 }
             } catch (error) {
-                log(error.message);
+                console.log(error.message);
             }
+
+            document.addEventListener("paste", (event) => {
+                /* the session has shut down */
+                console.log("asdf")
+            });
         });
     </script>
 </body>
