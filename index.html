@@ -6,7 +6,7 @@
 
 </head>
 
-<body>
+<body style="padding: 0; margin: 0">
 
     <!-- <script type="text/javascript">
         (async function () {
@@ -39,10 +39,25 @@
 
 
     </script> -->
-    <div style="display: flex; background-color: orange; height: 400px; justify-content: center; align-items: center;">
+    <div style="display: flex; background-color: orange; height: 200px; justify-content: center; align-items: center;">
         <img class="my-image" style="height: 100%;" />
     </div>
     <div id="paste-button">paste</div>
+
+    <div id="uploader"
+        style="display: flex; width: 100vw; aspect-ratio: 1; background-color: #f0f9ff; padding: 16px; box-sizing: border-box;">
+        <div class="uploaderBox"></div>
+    </div>
+
+    <input type="file" name="file" id="file" class="myclass" />
+
+    <label for="file" id="uploader2" class="droptarget" ondrop="drop(event)" ondragenter="dragEnter(event)"
+        ondragleave="dragLeave(event)" ondragover="allowDrop(event)"
+        style="display: flex; width: 100vw; aspect-ratio: 1; background-color: #f0f9ff; padding: 16px; box-sizing: border-box;">
+        <span class="uploaderBox" style="pointer-events: none; display: flex; height:100%; justify-content: center; align-items: center;">
+            asdf
+        </span>
+    </label>
 
     <script>
         const pasteButton = document.querySelector('#paste-button');
@@ -90,7 +105,65 @@
             });
         });
     </script>
+    <script>
+
+        function dragEnter(event) {
+            document.querySelector("#uploader2").style.backgroundColor = "lightblue";
+        }
+
+        function dragLeave(event) {
+            document.querySelector("#uploader2").style.backgroundColor = "#f0f9ff";
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            document.querySelector("#uploader2").style.backgroundColor = "#f0f9ff";
+        }
+    </script>
 </body>
+
+<style>
+    /* .droptarget {
+        width: 100px;
+        height: 35px;
+        padding: 10px;
+        border: 1px solid black;
+    } */
+
+    .uploaderBox {
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='10' ry='10' stroke='black' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        border-radius: 10px;
+    }
+
+    .myclass {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .myclass+label {
+        font-size: 2em;
+        font-weight: 700;
+        color: white;
+        background-color: transparent;
+        border-radius: 10px;
+        display: inline-block;
+    }
+
+    /* .myclass:focus+label,
+    .myclass+label:hover {
+        background-color: rgba(128, 0, 128, 0.322);
+    } */
+</style>
 
 </html>
 
