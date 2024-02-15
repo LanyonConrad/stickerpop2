@@ -44,14 +44,9 @@
     </div>
     <div id="paste-button">paste</div>
 
-    <div id="uploader"
-        style="display: flex; width: 100vw; aspect-ratio: 1; background-color: #f0f9ff; padding: 16px; box-sizing: border-box;">
-        <div class="uploaderBox"></div>
-    </div>
-
     <input type="file" name="file" id="file" class="myclass" />
 
-    <label for="file" id="uploader2" class="droptarget" ondrop="drop(event)" ondragenter="dragEnter(event)"
+    <label for="file" id="uploader" ondrop="drop(event)" ondragenter="dragEnter(event)"
         ondragleave="dragLeave(event)" ondragover="allowDrop(event)"
         style="display: flex; width: 100vw; aspect-ratio: 1; background-color: #f0f9ff; padding: 16px; box-sizing: border-box;">
         <span class="uploaderBox" style="pointer-events: none; display: flex; height:100%; justify-content: center; align-items: center;">
@@ -108,11 +103,11 @@
     <script>
 
         function dragEnter(event) {
-            document.querySelector("#uploader2").style.backgroundColor = "lightblue";
+            document.querySelector("#uploader").style.backgroundColor = "lightblue";
         }
 
         function dragLeave(event) {
-            document.querySelector("#uploader2").style.backgroundColor = "#f0f9ff";
+            document.querySelector("#uploader").style.backgroundColor = "#f0f9ff";
         }
 
         function allowDrop(event) {
@@ -121,18 +116,20 @@
 
         function drop(event) {
             event.preventDefault();
-            document.querySelector("#uploader2").style.backgroundColor = "#f0f9ff";
+            document.querySelector("#uploader").style.backgroundColor = "#f0f9ff";
         }
     </script>
 </body>
 
 <style>
-    /* .droptarget {
-        width: 100px;
-        height: 35px;
-        padding: 10px;
-        border: 1px solid black;
-    } */
+
+
+    #uploader {
+        transition: background .5s;
+        font-size: 2em;
+        font-weight: 700;
+        color: white;
+    }
 
     .uploaderBox {
         width: 100%;
@@ -150,14 +147,14 @@
         z-index: -1;
     }
 
-    .myclass+label {
+    /* .myclass+label {
         font-size: 2em;
         font-weight: 700;
         color: white;
         background-color: transparent;
         border-radius: 10px;
         display: inline-block;
-    }
+    } */
 
     /* .myclass:focus+label,
     .myclass+label:hover {
