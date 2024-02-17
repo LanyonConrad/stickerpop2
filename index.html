@@ -82,28 +82,24 @@
                 if (extension == 'heic') {
                     console.log("convert heic file")
 
-                    let reader = new FileReader();
-
-                    reader.onload = function (e) {
-                        let arrayBuffer = new Uint8Array(reader.result);
-                        console.log(arrayBuffer);
-                        let blob = new Blob(arrayBuffer);
+                    file.arrayBuffer().then((arrayBuffer) => {
+                        const blob = new Blob([new Uint8Array(arrayBuffer)], { type: file.type });
+                        console.log(blob);
 
                         heic2any({ blob })
-                        .then((conversionResult) => {
-                            // conversionResult is a BLOB
-                            // of the PNG formatted image
-                            console.log(conversionResult)
-                            document.querySelector("#ope").src = URL.createObjectURL(conversionResult)
+                            .then((conversionResult) => {
+                                // conversionResult is a BLOB
+                                // of the PNG formatted image
+                                console.log(conversionResult)
+                                document.querySelector("#ope").src = URL.createObjectURL(conversionResult)
 
-                        })
-                        .catch((e) => {
-                            // see error handling section
-                            console.log(e)
-                        });
-                    }
+                            })
+                            .catch((e) => {
+                                // see error handling section
+                                console.log(e)
+                            });
+                    });
 
-                    reader.readAsArrayBuffer(file);
                 }
 
                 else {
