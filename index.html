@@ -66,7 +66,7 @@
     <script>
         var fileTypes = ['jpg', 'jpeg', 'png', 'gif', 'heic']; //acceptable file types
 
-        function showFile(input) {
+        async function showFile(input) {
             let file = input.files[0];
             var extension = input.files[0].name.split('.').pop().toLowerCase() //file extension from input file
             var isSuccess = fileTypes.indexOf(extension) > -1; //is extension in acceptable types
@@ -79,10 +79,17 @@
 
                 reader.readAsDataURL(input.files[0]); */
 
-                if (extension = 'heic') {
+                if (extension == 'heic') {
                     console.log("convert heic file")
 
-                    heic2any({ file })
+                    let reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        let arrayBuffer = new Uint8Array(reader.result);
+                        console.log(arrayBuffer);
+                        let blob = new Blob(arrayBuffer);
+
+                        heic2any({ blob })
                         .then((conversionResult) => {
                             // conversionResult is a BLOB
                             // of the PNG formatted image
@@ -92,10 +99,18 @@
                         })
                         .catch((e) => {
                             // see error handling section
+                            console.log(e)
                         });
+                    }
+
+                    reader.readAsArrayBuffer(file);
                 }
 
-                // document.querySelector("#ope").src = URL.createObjectURL(file)
+                else {
+                    document.querySelector("#ope").src = URL.createObjectURL(file)
+
+                }
+
 
                 /* let reader = new FileReader();
     
