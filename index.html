@@ -49,7 +49,7 @@
         Stickerpop
     </header>
 
-    <input type="file" name="file" id="file" class="myclass" />
+    <input type="file" onchange="showFile(this)" name="file" id="file" class="myclass" />
 
     <label for="file" id="uploader" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)"
         ondragover="allowDrop(event)"
@@ -60,7 +60,61 @@
         </span>
     </label>
 
-    <div class="fabric-canvas-wrapper" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)"
+    <img id="ope" style="width: 100%;" />
+    <script src="https://raw.githubusercontent.com/alexcorvi/heic2any/master/dist/heic2any.js"></script>
+
+    <script>
+        var fileTypes = ['jpg', 'jpeg', 'png', 'gif', 'heic']; //acceptable file types
+
+        function showFile(input) {
+            let file = input.files[0];
+            var extension = input.files[0].name.split('.').pop().toLowerCase() //file extension from input file
+            var isSuccess = fileTypes.indexOf(extension) > -1; //is extension in acceptable types
+
+            if (isSuccess) { //yes
+                /* var reader = new FileReader();
+                reader.onload = function (e) {
+                    alert('image has read completely!');
+                }
+
+                reader.readAsDataURL(input.files[0]); */
+
+                if (extension = 'heic') {
+                    heic2any({ blob })
+                        .then((conversionResult) => {
+                            // conversionResult is a BLOB
+                            // of the PNG formatted image
+                            document.querySelector("#ope").src = URL.createObjectURL(conversionResult)
+
+                        })
+                        .catch((e) => {
+                            // see error handling section
+                        });
+                }
+
+                document.querySelector("#ope").src = URL.createObjectURL(file)
+
+                /* let reader = new FileReader();
+    
+                reader.readAsDataURL(file);
+    
+                reader.onload = function () {
+                    console.log(reader.result);
+                };
+    
+                reader.onerror = function () {
+                    console.log(reader.error);
+                }; */
+            }
+            else { //no
+                console.log("please upload an image")
+            }
+
+
+        }
+    </script>
+
+    <!-- <div class="fabric-canvas-wrapper" ondrop="drop(event)" ondragenter="dragEnter(event)" ondragleave="dragLeave(event)"
     ondragover="allowDrop(event)">
         <canvas id="theCanvas"></canvas>
     </div>
@@ -155,7 +209,7 @@
                 console.log("asdf")
             });
         });
-    </script>
+    </script> -->
     <script>
 
         function dragEnter(event) {
@@ -172,6 +226,25 @@
 
         function drop(event) {
             event.preventDefault();
+
+            console.log("File(s) dropped");
+
+            if (event.dataTransfer.items) {
+                // Use DataTransferItemList interface to access the file(s)
+                [...event.dataTransfer.items].forEach((item, i) => {
+                    // If dropped items aren't files, reject them
+                    if (item.kind === "file") {
+                        const file = item.getAsFile();
+                        console.log(`… file[${i}].name = ${file.name}`);
+                    }
+                });
+            } else {
+                // Use DataTransfer interface to access the file(s)
+                [...event.dataTransfer.files].forEach((file, i) => {
+                    console.log(`… file[${i}].name = ${file.name}`);
+                });
+            }
+
             document.querySelector("#uploader").style.backgroundColor = "#f0f9ff";
         }
     </script>
