@@ -61,7 +61,7 @@
     </label>
 
     <img id="ope" style="width: 100%;" />
-    <script src="https://raw.githubusercontent.com/alexcorvi/heic2any/master/dist/heic2any.js"></script>
+    <script src="heic2any.js"></script>
 
     <script>
         var fileTypes = ['jpg', 'jpeg', 'png', 'gif', 'heic']; //acceptable file types
@@ -80,10 +80,13 @@
                 reader.readAsDataURL(input.files[0]); */
 
                 if (extension = 'heic') {
-                    heic2any({ blob })
+                    console.log("convert heic file")
+
+                    heic2any({ file })
                         .then((conversionResult) => {
                             // conversionResult is a BLOB
                             // of the PNG formatted image
+                            console.log(conversionResult)
                             document.querySelector("#ope").src = URL.createObjectURL(conversionResult)
 
                         })
@@ -92,7 +95,7 @@
                         });
                 }
 
-                document.querySelector("#ope").src = URL.createObjectURL(file)
+                // document.querySelector("#ope").src = URL.createObjectURL(file)
 
                 /* let reader = new FileReader();
     
