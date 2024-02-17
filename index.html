@@ -72,12 +72,6 @@
             var isSuccess = fileTypes.indexOf(extension) > -1; //is extension in acceptable types
 
             if (isSuccess) { //yes
-                /* var reader = new FileReader();
-                reader.onload = function (e) {
-                    alert('image has read completely!');
-                }
-
-                reader.readAsDataURL(input.files[0]); */
 
                 if (extension == 'heic') {
                     console.log("convert heic file")
@@ -106,19 +100,6 @@
                     document.querySelector("#ope").src = URL.createObjectURL(file)
 
                 }
-
-
-                /* let reader = new FileReader();
-    
-                reader.readAsDataURL(file);
-    
-                reader.onload = function () {
-                    console.log(reader.result);
-                };
-    
-                reader.onerror = function () {
-                    console.log(reader.error);
-                }; */
             }
             else { //no
                 console.log("please upload an image")
